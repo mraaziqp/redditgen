@@ -1,0 +1,101 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reddit Story Generator</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+#story-container {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border-left: 4px solid #ff4500;
+}
+
+button {
+    padding: 10px 15px;
+    background: #ff4500; /* Reddit orange */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #ff5714;
+}
+
+h1 {
+    color: #ff4500;
+}
+    </style>
+</head>
+<body>
+    <h1>Reddit Story Generator</h1>
+<div id="story-container">
+    <p>Click the button to generate a story!</p>
+</div>
+<button id="generate-btn">Generate Story</button>
+<button id="auto-generate-btn">Auto-Generate (Every 10s)</button>
+    <script>
+        // Sample Reddit-style stories
+const stories = [
+    {
+        title: "TIFU by accidentally sending my entire browsing history to my boss",
+        content: "So today I was trying to send my quarterly report to my boss...\n\nI had both windows open and somehow managed to drag the wrong file into the email. I didn't realize until I got a reply 10 minutes later saying 'We need to talk about your internet usage.'\n\nEdit: Thanks for the gold kind stranger!"
+    },
+    {
+        title: "AITA for refusing to swap seats with a pregnant woman on a plane?",
+        content: "I was on a 12-hour flight and paid extra for a window seat...\n\nA pregnant woman asked me to swap with her middle seat in economy. I politely declined because I had specifically chosen this seat. She called me selfish and several passengers glared at me.\n\nEdit: Wow this blew up! To clarify, she was in row 30 and I was in row 5."
+    },
+    {
+        title: "My neighbor has been stealing my WiFi for 3 years - today I got revenge",
+        content: "For years I noticed my internet was slow...\n\nI logged into my router and saw an unknown device. I set up a guest network called 'FreeWiFi' and throttled the speed to 0.1Mbps. Then I created a wall of shame with all the sites they visited.\n\nEdit: Obligatory 'this is my most upvoted post' edit!"
+    }
+];
+
+// Get DOM elements
+const storyContainer = document.getElementById('story-container');
+const generateBtn = document.getElementById('generate-btn');
+const autoGenerateBtn = document.getElementById('auto-generate-btn');
+
+let autoInterval = null;
+
+// Function to generate a random story
+function generateStory() {
+    const randomStory = stories[Math.floor(Math.random() * stories.length)];
+    
+    storyContainer.innerHTML = `
+        <h2>${randomStory.title}</h2>
+        <p>${randomStory.content.replace(/\n\n/g, '</p><p>')}</p>
+        <div class="upvotes">▲ ${Math.floor(Math.random() * 10000) + 100} upvotes</div>
+    `;
+}
+
+// Event listeners
+generateBtn.addEventListener('click', generateStory);
+
+autoGenerateBtn.addEventListener('click', function() {
+    if (autoInterval) {
+        clearInterval(autoInterval);
+        autoInterval = null;
+        this.textContent = "Auto-Generate (Every 10s)";
+    } else {
+        generateStory();
+        autoInterval = setInterval(generateStory, 10000);
+        this.textContent = "Stop Auto-Generate";
+    }
+});
+    </script>
+</body>
+</html>
